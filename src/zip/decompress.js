@@ -7,6 +7,9 @@ export const decompress = async () => {
   const writeStream = createWriteStream('./files/fileToCompress.txt')
 
   readStream
+      .on('error', (err => {
+        throw new Error(err.message)
+      }))
       .pipe(gunzip)
       .pipe(writeStream)
       .on('finish', () => console.log('done decompressing'));
