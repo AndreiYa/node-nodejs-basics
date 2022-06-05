@@ -27,4 +27,4 @@ export const performCalculations = async () => {
   })
 };
 
-await performCalculations()
+await performCalculations();

@@ -10,7 +10,7 @@ export const rename = async () => {
             console.log('Done')
           }))
         } else {
-          throw new Error('FS operation failed e')
+          throw new Error('FS operation failed')
         }
       })
     }

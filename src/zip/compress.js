@@ -7,6 +7,9 @@ export const compress = async () => {
   const writeStream = createWriteStream('./files/archive.gz');
 
   readStream
+      .on('error', (err => {
+        throw new Error(err.message)
+      }))
       .pipe(gzip)
       .pipe(writeStream)
       .on('finish', () => console.log('done compressing'));
