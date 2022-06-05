@@ -1,3 +1,6 @@
 export const parseEnv = () => {
-    // Write your code here 
+  Object.entries(process.env).forEach(el => {
+    console.log(`RSS_` + el.join('=') + '; ')
+  })
 };
+parseEnv()
