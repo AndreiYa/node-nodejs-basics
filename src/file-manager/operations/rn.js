@@ -1,19 +1,13 @@
-import {join} from 'path';
-import {access, rename} from "fs/promises";
-import { constants } from 'fs';
+import {access, rename} from 'node:fs/promises';
 
 export const rn = async (currentDir, res) => {
-  // const path = join(currentDir, res[0])
-  console.log(res[0])
+  const path = res[0].split('/');
+  path.pop();
   try {
-    // await access(res[0])
-    await access('C:/User/user/del.txt', constants.R_OK | constants.W_OK)
-    const newPath = res[1].split('/')
-    console.log(newPath)
-    // rename(res[0], )
+    await access(res[0]);
+    await rename(res[0], res[1]);
+    return {resultData: 'Done'};
   } catch (err) {
     throw new Error(err.message)
   }
-  // console.log(path)
-
-}
+};

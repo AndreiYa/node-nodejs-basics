@@ -4,6 +4,7 @@ import zlib from 'node:zlib';
 export const decompress = async () => {
   const gunzip = zlib.createGunzip();
   const readStream = createReadStream('./files/archive.gz');
+  console.log(readStream)
   const writeStream = createWriteStream('./files/fileToCompress.txt')
 
   readStream

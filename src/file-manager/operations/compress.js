@@ -1,19 +1,16 @@
 import {createReadStream, createWriteStream} from 'node:fs';
-import zlib from 'node:zlib';
+import {createBrotliCompress} from 'node:zlib';
+import { pipeline } from "node:stream/promises";
 
-export const compress = async (pathToFile, pathToDest) => {
-  console.log(pathToFile, pathToDest)
-  const gzip = zlib.createGzip();
-  const readStream = createReadStream(pathToFile);
-  const writeStream = createWriteStream(pathToDest);
+export const compress = async (_, res) => {
+  try {
+    const brotliCompress = createBrotliCompress();
+    const readStream = createReadStream(res[0]);
+    const writeStream = createWriteStream(res[1], { flags: "wx" });
 
-  readStream
-      .on('error', (err => {
-        throw new Error(err.message)
-      }))
-      .pipe(gzip)
-      .pipe(writeStream)
-      .on('finish', () => {
-        return {resultData: 'done compressing'};
-      });
+    await pipeline(readStream, brotliCompress, writeStream);
+    return {resultData: 'Compress done'}
+  } catch (err) {
+    throw new Error(err.message)
+  }
 };

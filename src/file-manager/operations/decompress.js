@@ -1,16 +1,17 @@
 import {createReadStream, createWriteStream} from 'node:fs';
-import zlib from 'node:zlib';
+import {createBrotliDecompress} from 'node:zlib';
+import {pipeline} from "node:stream/promises";
 
-export const decompress = async () => {
-  const gunzip = zlib.createGunzip();
-  const readStream = createReadStream('./files/archive.gz');
-  const writeStream = createWriteStream('./files/fileToCompress.txt')
+export const decompress = async (_, res) => {
+  // const fileName = res[0].split('/');
+  try {
+    const brotliDecompress = createBrotliDecompress();
+    const writeStream = createWriteStream(res[1], { flags: "wx" });
+    const readStream = createReadStream(res[0]);
 
-  readStream
-      .on('error', (err => {
-        throw new Error(err.message)
-      }))
-      .pipe(gunzip)
-      .pipe(writeStream)
-      .on('finish', () => console.log('done decompressing'));
+    await pipeline(readStream, brotliDecompress, writeStream);
+    return {resultData: 'Decompress done'}
+  } catch (err) {
+    throw new Error(err.message)
+  }
 };
