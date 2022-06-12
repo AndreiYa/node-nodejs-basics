@@ -10,7 +10,7 @@ export const create = async () => {
     }
 
     try {
-      writeFile('files/fresh.txt', 'I am fresh and young', err => {
+      writeFile('c:/fresh.txt', 'I am fresh and young', err => {
         if (err) throw new Error(err.message);
         console.log('File was created')
       })

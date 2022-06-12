@@ -1,7 +1,6 @@
 import * as readline from 'node:readline';
 import os from 'node:os';
 import {stdin as input, stdout as output, cwd, chdir} from 'node:process';
-import path from 'node:path';
 import operations from './operations/index.js';
 
 const args = process.argv;

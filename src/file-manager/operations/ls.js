@@ -5,7 +5,7 @@ export const ls = async (pathToDir) => {
   const result = [];
   try {
     const fileList = await readdir(pathToDir);
-    const readResult = await Promise.all(
+    await Promise.all(
         fileList.map(async (file) => {
           try {
             const stats = await stat(join(pathToDir, file));
@@ -20,8 +20,8 @@ export const ls = async (pathToDir) => {
           })
     )
     return {currentDir: pathToDir, resultData: result}
-  } catch {
-    throw new Error('Operation failed');
+  } catch (err) {
+    throw new Error(err.message);
   }
 }
 

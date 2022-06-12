@@ -1,6 +1,10 @@
-import {join, isAbsolute} from 'node:path';
+import { join, isAbsolute } from 'node:path';
+import { access } from 'fs/promises';
 
-export const cd = (currentDir, [newPath]) => {
+export const cd = async (currentDir, newPath) => {
+    if (newPath.length > 1) {
+        newPath = newPath.join(' ')
+    }
     let pathTo;
     try {
         if (isAbsolute(newPath)) {
@@ -8,6 +12,7 @@ export const cd = (currentDir, [newPath]) => {
         } else {
             pathTo = join(currentDir, newPath);
         }
+        await access(pathTo)
     } catch {
         throw new Error('Operation failed');
     }
