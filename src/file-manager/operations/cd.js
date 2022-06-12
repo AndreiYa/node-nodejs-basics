@@ -7,10 +7,10 @@ export const cd = async (currentDir, newPath) => {
     }
     let pathTo;
     try {
-        if (isAbsolute(newPath)) {
-            pathTo = newPath;
+        if (isAbsolute(newPath.join(''))) {
+            pathTo = newPath.join('');
         } else {
-            pathTo = join(currentDir, newPath);
+            pathTo = join(currentDir, newPath.join(''));
         }
         await access(pathTo)
     } catch {
